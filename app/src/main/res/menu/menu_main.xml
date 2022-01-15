@@ -1,0 +1,11 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/history"
+        android:title="@string/show_history"
+        android:icon="@drawable/ic_browsing_24"
+        app:showAsAction="always"/>
+
+</menu>

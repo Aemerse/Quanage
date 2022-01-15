@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="SpUsage, RtlHardcoded">
+
+    <LinearLayout
+        android:id="@+id/focal_point"
+        style="@style/rng_page_container">
+
+        <TextView
+            android:text="@string/coin_flipper"
+            style="@style/page_title"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/num_coins"
+                android:layout_width="60dp"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:inputType="number"
+                android:maxLength="4"
+                android:imeOptions="actionDone"
+                style="@style/numeric_input"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/num_coins"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/num_coins_prefix"
+                android:textSize="15dp"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/flip"
+            android:text="@string/flip"
+            style="@style/rounded_generate_button"/>
+
+        <include layout="@layout/results"/>
+    </LinearLayout>
+</ScrollView>

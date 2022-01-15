@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:background="@color/black"
+        android:layout_height="?android:attr/actionBarSize"
+        app:title="@string/app_name"
+        app:menu="@menu/profile_top"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_chip_24"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomnavview"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <com.aemerse.quanage.utils.RippleBackground
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/content"
+                app:rb_color="@color/light_black"
+                app:rb_radius="50dp"
+                app:rb_rippleAmount="6"
+                app:rb_duration="8000"
+                app:rb_scale="6">
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="@dimen/_200sdp"/>
+
+                <ImageView
+                    android:id="@+id/faceRecognitionPic"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_200sdp"
+                    android:layout_centerHorizontal="true"
+                    android:padding="20dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+            </com.aemerse.quanage.utils.RippleBackground>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/circularbordersolid"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingRight="8dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/circular_grey_bordersolid"
+                        android:padding="10dp"
+                        app:srcCompat="@drawable/ic_user_24dp" />
+
+                    <TextView
+                        android:id="@+id/dobText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="8dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/circular_grey_bordersolid"
+                        android:padding="10dp"
+                        app:srcCompat="@drawable/ic_mail_24dp" />
+
+                    <TextView
+                        android:id="@+id/emailIdText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/phonell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="8dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/circular_grey_bordersolid"
+                        android:padding="10dp"
+                        app:srcCompat="@drawable/ic_phone_24dp" />
+
+                    <TextView
+                        android:id="@+id/phoneNumberText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/_240sdp"
+                android:layout_height="@dimen/_180sdp"
+                android:layout_margin="@dimen/_8sdp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/play" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomnavview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:layout_alignParentBottom="true"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_navigation" />
+
+</RelativeLayout>
