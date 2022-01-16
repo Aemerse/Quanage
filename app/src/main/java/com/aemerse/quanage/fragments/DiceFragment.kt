@@ -10,7 +10,7 @@ import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.aemerse.quanage.R
 import com.aemerse.quanage.activities.MainActivity
-import com.aemerse.quanage.constants.RNGType
+import com.aemerse.quanage.constants.QRNGType
 import com.aemerse.quanage.persistence.HistoryDataManager
 import com.aemerse.quanage.persistence.PreferencesManager
 import com.aemerse.quanage.utils.*
@@ -33,7 +33,7 @@ class DiceFragment : Fragment() {
     }
     private val shakeListener: ShakeManager.Listener = object :ShakeManager.Listener {
         override fun onShakeDetected(currentRngPage: Int) {
-            if (currentRngPage == RNGType.DICE) {
+            if (currentRngPage == QRNGType.DICE) {
                 roll()
             }
         }
@@ -69,8 +69,8 @@ class DiceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        historyDataManager = HistoryDataManager[activity!!]
-        preferencesManager = PreferencesManager(activity!!)
+        historyDataManager = HistoryDataManager[requireActivity()]
+        preferencesManager = PreferencesManager(requireActivity())
         numDiceInput!!.setText(preferencesManager!!.numDice)
         numSidesInput!!.setText(preferencesManager!!.numSides)
     }
@@ -93,7 +93,7 @@ class DiceFragment : Fragment() {
     fun roll() {
         if (verifyForm()) {
             val mainActivity = activity as MainActivity?
-            mainActivity?.playSound(RNGType.DICE)
+            mainActivity?.playSound(QRNGType.DICE)
             val numDice = numDiceInput!!.text.toString().toInt()
             val numSides = numSidesInput!!.text.toString().toInt()
             val rolls = getNumbers(
@@ -104,13 +104,13 @@ class DiceFragment : Fragment() {
                     ArrayList())
             resultsContainer!!.visibility = View.VISIBLE
             val rollsText = getDiceResults(rolls, rollsPrefix, sumPrefix)
-            historyDataManager!!.addHistoryRecord(RNGType.DICE, rollsText)
+            historyDataManager!!.addHistoryRecord(QRNGType.DICE, rollsText)
             animateResults(results!!, HtmlCompat.fromHtml(rollsText,HtmlCompat.FROM_HTML_MODE_LEGACY), resultsAnimationLength)
         }
     }
 
     private fun verifyForm(): Boolean {
-        hideKeyboard(activity!!)
+        hideKeyboard(requireActivity())
         focalPoint!!.requestFocus()
         val numSides = numSidesInput!!.text.toString()
         val numDice = numDiceInput!!.text.toString()
@@ -131,7 +131,7 @@ class DiceFragment : Fragment() {
 
     private fun copyNumbers() {
         val numbersText = results!!.text.toString()
-        copyResultsToClipboard(numbersText, snackbarDisplay, activity!!)
+        copyResultsToClipboard(numbersText, snackbarDisplay, requireActivity())
     }
 
     private fun saveSettings() {

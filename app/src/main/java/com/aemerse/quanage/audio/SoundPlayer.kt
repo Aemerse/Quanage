@@ -4,7 +4,7 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnCompletionListener
 import com.aemerse.quanage.R
-import com.aemerse.quanage.constants.RNGType
+import com.aemerse.quanage.constants.QRNGType
 
 class SoundPlayer(context: Context, private val listener: Listener) {
     interface Listener {
@@ -41,16 +41,16 @@ class SoundPlayer(context: Context, private val listener: Listener) {
     private val coinSoundPlayer: MediaPlayer
     private var currentlyPlayingMediaPlayer: MediaPlayer? = null
     private val audioFocusManager: AudioFocusManager
-    fun playSound(@RNGType rngType: Int) {
+    fun playSound(@QRNGType rngType: Int) {
         audioFocusManager.releaseAudioFocus()
         if (currentlyPlayingMediaPlayer != null) {
             currentlyPlayingMediaPlayer!!.pause()
             currentlyPlayingMediaPlayer = null
         }
         when (rngType) {
-            RNGType.NUMBER -> currentlyPlayingMediaPlayer = rngSoundPlayer
-            RNGType.DICE -> currentlyPlayingMediaPlayer = diceSoundPlayer
-            RNGType.COINS -> currentlyPlayingMediaPlayer = coinSoundPlayer
+            QRNGType.NUMBER -> currentlyPlayingMediaPlayer = rngSoundPlayer
+            QRNGType.DICE -> currentlyPlayingMediaPlayer = diceSoundPlayer
+            QRNGType.COINS -> currentlyPlayingMediaPlayer = coinSoundPlayer
         }
         audioFocusManager.requestAudioFocus()
     }

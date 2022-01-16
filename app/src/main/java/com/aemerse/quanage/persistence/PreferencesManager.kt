@@ -3,7 +3,7 @@ package com.aemerse.quanage.persistence
 import android.content.Context
 import android.content.SharedPreferences
 import com.aemerse.quanage.constants.SortType
-import com.aemerse.quanage.models.RNGSettings
+import com.aemerse.quanage.models.QRNGSettings
 import java.util.*
 
 class PreferencesManager(context: Context) {
@@ -45,9 +45,9 @@ class PreferencesManager(context: Context) {
         set(enableShake) {
             prefs.edit().putBoolean(ENABLE_SHAKE, enableShake).apply()
         }
-    val rNGSettings: RNGSettings
+    val rNGSettings: QRNGSettings
         get() {
-            val rngSettings = RNGSettings()
+            val rngSettings = QRNGSettings()
             rngSettings.minimum = prefs.getInt(MINIMUM_KEY, DEFAULT_MIN)
             rngSettings.maximum = prefs.getInt(MAXIMUM_KEY, DEFAULT_MAX)
             rngSettings.numNumbers = prefs.getInt(NUM_NUMBERS_KEY, DEFAULT_NUM_NUMBERS)
@@ -65,20 +65,20 @@ class PreferencesManager(context: Context) {
             return rngSettings
         }
 
-    fun saveRNGSettings(rngSettings: RNGSettings) {
-        val excludedNumbers: List<Int> = rngSettings.excludedNumbers!!
+    fun saveRNGSettings(QRNGSettings: QRNGSettings) {
+        val excludedNumbers: List<Int> = QRNGSettings.excludedNumbers!!
         val excludedNumberStrings: MutableSet<String> = HashSet()
         for (number in excludedNumbers) {
             excludedNumberStrings.add(number.toString())
         }
-        prefs.edit().putInt(MINIMUM_KEY, rngSettings.minimum)
-                .putInt(MAXIMUM_KEY, rngSettings.maximum)
-                .putInt(NUM_NUMBERS_KEY, rngSettings.numNumbers)
+        prefs.edit().putInt(MINIMUM_KEY, QRNGSettings.minimum)
+                .putInt(MAXIMUM_KEY, QRNGSettings.maximum)
+                .putInt(NUM_NUMBERS_KEY, QRNGSettings.numNumbers)
                 .putStringSet(EXCLUDED_NUMBERS_KEY, excludedNumberStrings)
-                .putInt(SORT_TYPE_KEY, rngSettings.sortType)
-                .putBoolean(NO_DUPES_KEY, rngSettings.isNoDupes)
-                .putBoolean(SHOW_SUM_KEY, rngSettings.isShowSum)
-                .putBoolean(HIDE_EXCLUDED_KEY, rngSettings.isHideExcluded)
+                .putInt(SORT_TYPE_KEY, QRNGSettings.sortType)
+                .putBoolean(NO_DUPES_KEY, QRNGSettings.isNoDupes)
+                .putBoolean(SHOW_SUM_KEY, QRNGSettings.isShowSum)
+                .putBoolean(HIDE_EXCLUDED_KEY, QRNGSettings.isHideExcluded)
                 .apply()
     }
 

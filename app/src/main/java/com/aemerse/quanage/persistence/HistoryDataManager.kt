@@ -4,13 +4,13 @@ import android.content.Context
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.SparseArray
-import com.aemerse.quanage.constants.RNGType
+import com.aemerse.quanage.constants.QRNGType
 import java.util.*
 
 class HistoryDataManager private constructor(context: Context) {
     interface Listener {
         fun onInitialHistoryDataFetched(historyRecords: SparseArray<List<CharSequence>>?)
-        fun onHistoryRecordAdded(@RNGType rngType: Int, recordText: String?)
+        fun onHistoryRecordAdded(@QRNGType rngType: Int, recordText: String?)
     }
 
     private val dataSource: HistoryDataSource? = HistoryDataSource.get(context)
@@ -19,7 +19,7 @@ class HistoryDataManager private constructor(context: Context) {
         listeners.add(listener)
     }
 
-    fun addHistoryRecord(@RNGType rngType: Int, recordText: String?) {
+    fun addHistoryRecord(@QRNGType rngType: Int, recordText: String?) {
         dataSource!!.addHistoryRecord(rngType, recordText)
         for (listener in listeners) {
             listener.onHistoryRecordAdded(rngType, recordText)
@@ -39,7 +39,7 @@ class HistoryDataManager private constructor(context: Context) {
             }
         }
 
-    fun deleteHistory(@RNGType rngType: Int) {
+    fun deleteHistory(@QRNGType rngType: Int) {
         dataSource!!.deleteHistory(rngType)
     }
 

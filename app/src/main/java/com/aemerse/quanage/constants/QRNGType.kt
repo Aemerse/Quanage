@@ -2,8 +2,8 @@ package com.aemerse.quanage.constants
 
 import androidx.annotation.IntDef
 
-@IntDef(RNGType.NUMBER, RNGType.DICE, RNGType.COINS)
-annotation class RNGType {
+@IntDef(QRNGType.NUMBER, QRNGType.DICE, QRNGType.COINS)
+annotation class QRNGType {
     companion object {
         const val NUMBER = 0
         const val DICE = 1

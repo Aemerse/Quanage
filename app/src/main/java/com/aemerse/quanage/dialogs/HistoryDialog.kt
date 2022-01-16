@@ -7,11 +7,11 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.aemerse.quanage.R
 import com.aemerse.quanage.adapters.HistoryAdapter
-import com.aemerse.quanage.constants.RNGType
+import com.aemerse.quanage.constants.QRNGType
 import com.aemerse.quanage.persistence.HistoryDataManager
 import com.aemerse.quanage.utils.SimpleDividerItemDecoration
 
-class HistoryDialog(context: Context, @field:RNGType @param:RNGType private val currentRngType: Int, isDarkModeEnabled: Boolean) {
+class HistoryDialog(context: Context, @field:QRNGType @param:QRNGType private val currentRngType: Int, isDarkModeEnabled: Boolean) {
     private lateinit var dialog: MaterialDialog
     private val historyAdapter: HistoryAdapter = HistoryAdapter()
     private val historyDataManager: HistoryDataManager
@@ -41,9 +41,9 @@ class HistoryDialog(context: Context, @field:RNGType @param:RNGType private val 
     @get:StringRes
     private val titleResource: Int
         get() = when (currentRngType) {
-            RNGType.NUMBER -> R.string.rng_history
-            RNGType.DICE -> R.string.dice_history
-            RNGType.COINS -> R.string.coins_history
+            QRNGType.NUMBER -> R.string.rng_history
+            QRNGType.DICE -> R.string.dice_history
+            QRNGType.COINS -> R.string.coins_history
             else -> R.string.rng_history
         }
     private val listener: HistoryDataManager.Listener = object : HistoryDataManager.Listener {
@@ -57,7 +57,7 @@ class HistoryDialog(context: Context, @field:RNGType @param:RNGType private val 
             historyAdapter.setInitialItems(history)
         }
 
-        override fun onHistoryRecordAdded(@RNGType rngType: Int, recordText: String?) {
+        override fun onHistoryRecordAdded(@QRNGType rngType: Int, recordText: String?) {
             if (currentRngType == rngType) {
                 if (recordText != null) {
                     historyAdapter.addItem(recordText)

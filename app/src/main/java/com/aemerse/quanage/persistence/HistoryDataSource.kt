@@ -7,12 +7,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.SparseArray
-import com.aemerse.quanage.constants.RNGType
+import com.aemerse.quanage.constants.QRNGType
 import java.util.*
 
 class HistoryDataSource private constructor(context: Context) {
     private var database: SQLiteDatabase? = null
-    private val dbHelper: MySQLiteHelper = MySQLiteHelper(context)
+    private val dbHelper: SQLiteHelper = SQLiteHelper(context)
     private val backgroundHandler: Handler
 
     // Open connection to database
@@ -31,16 +31,16 @@ class HistoryDataSource private constructor(context: Context) {
             val rngTypeToHistoryList = SparseArray<List<CharSequence>>()
             open()
             val columns = arrayOf(
-                    MySQLiteHelper.COLUMN_RECORD_TEXT,
-                    MySQLiteHelper.COLUMN_TIME_INSERTED)
-            val selection: String = MySQLiteHelper.COLUMN_RNG_TYPE + " = ?"
-            val orderBy: String = MySQLiteHelper.COLUMN_TIME_INSERTED + " DESC"
-            val rngTypes = intArrayOf(RNGType.NUMBER, RNGType.DICE, RNGType.COINS)
+                    SQLiteHelper.COLUMN_RECORD_TEXT,
+                    SQLiteHelper.COLUMN_TIME_INSERTED)
+            val selection: String = SQLiteHelper.COLUMN_RNG_TYPE + " = ?"
+            val orderBy: String = SQLiteHelper.COLUMN_TIME_INSERTED + " DESC"
+            val rngTypes = intArrayOf(QRNGType.NUMBER, QRNGType.DICE, QRNGType.COINS)
             for (rngType in rngTypes) {
                 val history: MutableList<CharSequence> = ArrayList()
                 val selectionArgs = arrayOf(rngType.toString())
                 val cursor = database!!.query(
-                        MySQLiteHelper.TABLE_NAME,
+                        SQLiteHelper.TABLE_NAME,
                         columns,
                         selection,
                         selectionArgs,
@@ -59,25 +59,25 @@ class HistoryDataSource private constructor(context: Context) {
             return rngTypeToHistoryList
         }
 
-    fun addHistoryRecord(@RNGType rngType: Int, recordText: String?) {
+    fun addHistoryRecord(@QRNGType rngType: Int, recordText: String?) {
         backgroundHandler.post {
             open()
             val values = ContentValues()
-            values.put(MySQLiteHelper.COLUMN_RNG_TYPE, rngType)
-            values.put(MySQLiteHelper.COLUMN_RECORD_TEXT, recordText)
-            values.put(MySQLiteHelper.COLUMN_TIME_INSERTED, System.currentTimeMillis())
-            database!!.insert(MySQLiteHelper.TABLE_NAME, null, values)
+            values.put(SQLiteHelper.COLUMN_RNG_TYPE, rngType)
+            values.put(SQLiteHelper.COLUMN_RECORD_TEXT, recordText)
+            values.put(SQLiteHelper.COLUMN_TIME_INSERTED, System.currentTimeMillis())
+            database!!.insert(SQLiteHelper.TABLE_NAME, null, values)
             close()
         }
     }
 
-    fun deleteHistory(@RNGType rngType: Int) {
+    fun deleteHistory(@QRNGType rngType: Int) {
         backgroundHandler.post {
             open()
             val whereArgs = arrayOf(rngType.toString())
             database!!.delete(
-                    MySQLiteHelper.TABLE_NAME,
-                    MySQLiteHelper.COLUMN_RNG_TYPE + " = ?",
+                    SQLiteHelper.TABLE_NAME,
+                    SQLiteHelper.COLUMN_RNG_TYPE + " = ?",
                     whereArgs)
             close()
         }

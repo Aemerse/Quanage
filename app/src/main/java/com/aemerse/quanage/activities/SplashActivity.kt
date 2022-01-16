@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
         }
         else{
             startActivityForResult(
-                    AuthUI.getInstance().createSignInIntentBuilder()
+                AuthUI.getInstance().createSignInIntentBuilder()
                             .setAvailableProviders(listOf(AuthUI.IdpConfig.GoogleBuilder().build()))
                             .setTheme(R.style.AuthTheme)
                             .setLogo(R.drawable.logo)

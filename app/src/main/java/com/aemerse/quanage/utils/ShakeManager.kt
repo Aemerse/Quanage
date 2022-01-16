@@ -1,6 +1,6 @@
 package com.aemerse.quanage.utils
 
-import com.aemerse.quanage.constants.RNGType
+import com.aemerse.quanage.constants.QRNGType
 import java.util.concurrent.CopyOnWriteArraySet
 
 /**
@@ -8,7 +8,7 @@ import java.util.concurrent.CopyOnWriteArraySet
  */
 class ShakeManager {
     interface Listener {
-        fun onShakeDetected(@RNGType currentRngPage: Int)
+        fun onShakeDetected(@QRNGType currentRngPage: Int)
     }
 
     private val listeners: CopyOnWriteArraySet<Listener> = CopyOnWriteArraySet()
@@ -20,7 +20,7 @@ class ShakeManager {
         listeners.remove(listener)
     }
 
-    fun onShakeDetected(@RNGType currentRngPage: Int) {
+    fun onShakeDetected(@QRNGType currentRngPage: Int) {
         for (listener in listeners) {
             listener.onShakeDetected(currentRngPage)
         }

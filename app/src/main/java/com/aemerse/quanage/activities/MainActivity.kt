@@ -9,7 +9,7 @@ import androidx.viewpager.widget.ViewPager
 import com.aemerse.quanage.R
 import com.aemerse.quanage.adapters.HomepageTabsAdapter
 import com.aemerse.quanage.audio.SoundPlayer
-import com.aemerse.quanage.constants.RNGType
+import com.aemerse.quanage.constants.QRNGType
 import com.aemerse.quanage.databinding.HomepageBinding
 import com.aemerse.quanage.dialogs.HistoryDialog
 import com.aemerse.quanage.persistence.HistoryDataManager
@@ -62,9 +62,9 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
         shakeManager = get()
         shakeDetector = ShakeDetector(this)
 
-        rngHistoryDialog = HistoryDialog(this, RNGType.NUMBER, true)
-        diceHistoryDialog = HistoryDialog(this, RNGType.DICE, true)
-        coinsHistoryDialog = HistoryDialog(this, RNGType.COINS, true)
+        rngHistoryDialog = HistoryDialog(this, QRNGType.NUMBER, true)
+        diceHistoryDialog = HistoryDialog(this, QRNGType.DICE, true)
+        coinsHistoryDialog = HistoryDialog(this, QRNGType.COINS, true)
         HistoryDataManager[this]!!.initialHistory
 
         binding.homePager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
     }
 
 
-    fun playSound(@RNGType rngType: Int) {
+    fun playSound(@QRNGType rngType: Int) {
         if (!preferencesManager!!.shouldPlaySounds()) {
             return
         }

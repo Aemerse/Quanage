@@ -36,13 +36,12 @@ import kotlin.math.sqrt
 
 var toast: Toast? = null
 
-const val sharedPrefFile = "qwhirlSharedPreferences"
+const val sharedPrefFile = "quanageSharedPreferences"
 val permissionsRequest: Int = 931
 
 val permissionsToGive = arrayOf(
   Manifest.permission.INTERNET,
-  Manifest.permission.READ_EXTERNAL_STORAGE,
-  Manifest.permission.WRITE_EXTERNAL_STORAGE
+  Manifest.permission.READ_EXTERNAL_STORAGE
 )
 fun getRealPathFromURI(contentURI: Uri, context: Context): String? {
   val result: String?

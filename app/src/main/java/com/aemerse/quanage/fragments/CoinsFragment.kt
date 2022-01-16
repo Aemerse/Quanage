@@ -10,7 +10,7 @@ import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.aemerse.quanage.R
 import com.aemerse.quanage.activities.MainActivity
-import com.aemerse.quanage.constants.RNGType
+import com.aemerse.quanage.constants.QRNGType
 import com.aemerse.quanage.persistence.HistoryDataManager
 import com.aemerse.quanage.persistence.PreferencesManager
 import com.aemerse.quanage.utils.*
@@ -30,7 +30,7 @@ class CoinsFragment : Fragment() {
     }
     private val shakeListener: ShakeManager.Listener = object: ShakeManager.Listener {
         override fun onShakeDetected(currentRngPage: Int) {
-            if (currentRngPage == RNGType.COINS) {
+            if (currentRngPage == QRNGType.COINS) {
                 flip()
             }
         }
@@ -53,8 +53,8 @@ class CoinsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        historyDataManager = HistoryDataManager[activity!!]
-        preferencesManager = PreferencesManager(activity!!)
+        historyDataManager = HistoryDataManager[requireActivity()]
+        preferencesManager = PreferencesManager(requireActivity())
         numCoinsInput!!.setText(preferencesManager!!.numCoins.toString())
     }
 
@@ -66,7 +66,7 @@ class CoinsFragment : Fragment() {
     private fun flip() {
         if (verifyForm()) {
             val mainActivity = activity as MainActivity?
-            mainActivity?.playSound(RNGType.COINS)
+            mainActivity?.playSound(QRNGType.COINS)
             val numCoins = numCoinsInput!!.text.toString().toInt()
             val flips = getNumbers(
                     0,
@@ -75,14 +75,14 @@ class CoinsFragment : Fragment() {
                     false,
                     ArrayList())
             resultsContainer!!.visibility = View.VISIBLE
-            val flipText = getCoinResults(flips, activity!!)
-            historyDataManager!!.addHistoryRecord(RNGType.COINS, flipText)
+            val flipText = getCoinResults(flips, requireActivity())
+            historyDataManager!!.addHistoryRecord(QRNGType.COINS, flipText)
             animateResults(results!!, HtmlCompat.fromHtml(flipText,HtmlCompat.FROM_HTML_MODE_LEGACY), resultsAnimationLength)
         }
     }
 
     private fun verifyForm(): Boolean {
-        hideKeyboard(activity!!)
+        hideKeyboard(requireActivity())
         focalPoint!!.requestFocus()
         val numCoins = numCoinsInput!!.text.toString()
         try {
@@ -99,7 +99,7 @@ class CoinsFragment : Fragment() {
 
     private fun copyNumbers() {
         val numbersText = results!!.text.toString()
-        copyResultsToClipboard(numbersText, snackbarDisplay, activity!!)
+        copyResultsToClipboard(numbersText, snackbarDisplay, requireActivity())
     }
 
     private fun saveSettings() {

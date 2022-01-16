@@ -18,8 +18,8 @@ import com.afollestad.materialdialogs.Theme
 import com.aemerse.quanage.R
 import com.aemerse.quanage.activities.EditExcludedActivity
 import com.aemerse.quanage.activities.MainActivity
-import com.aemerse.quanage.constants.RNGType
-import com.aemerse.quanage.models.RNGSettings
+import com.aemerse.quanage.constants.QRNGType
+import com.aemerse.quanage.models.QRNGSettings
 import com.aemerse.quanage.models.RNGSettingsViewHolder
 import com.aemerse.quanage.persistence.HistoryDataManager
 import com.aemerse.quanage.persistence.PreferencesManager
@@ -46,13 +46,13 @@ class QRNGFragment : Fragment() {
     }
     private val shakeListener: ShakeManager.Listener = object: ShakeManager.Listener {
         override fun onShakeDetected(currentRngPage: Int) {
-            if (currentRngPage == RNGType.NUMBER) {
+            if (currentRngPage == QRNGType.NUMBER) {
                 generate()
             }
         }
     }
     private var preferencesManager: PreferencesManager? = null
-    private var rngSettings: RNGSettings? = null
+    private var QRNGSettings: QRNGSettings? = null
     private var settingsDialog: MaterialDialog? = null
     private var excludedDialog: MaterialDialog? = null
     private var moreSettingsViewHolder: RNGSettingsViewHolder? = null
@@ -97,37 +97,37 @@ class QRNGFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        historyDataManager = HistoryDataManager[activity!!]
-        preferencesManager = PreferencesManager(activity!!)
-        rngSettings = preferencesManager!!.rNGSettings
+        historyDataManager = HistoryDataManager[requireActivity()]
+        preferencesManager = PreferencesManager(requireActivity())
+        QRNGSettings = preferencesManager!!.rNGSettings
 
         // Setting the value of min/max clears the excluded numbers, so we have to save them
-        val excludedCopy = ArrayList(rngSettings!!.excludedNumbers!!)
-        minimumInput!!.setText(java.lang.String.valueOf(rngSettings!!.minimum))
-        maximumInput!!.setText(java.lang.String.valueOf(rngSettings!!.maximum))
-        rngSettings!!.excludedNumbers = excludedCopy
+        val excludedCopy = ArrayList(QRNGSettings!!.excludedNumbers!!)
+        minimumInput!!.setText(java.lang.String.valueOf(QRNGSettings!!.minimum))
+        maximumInput!!.setText(java.lang.String.valueOf(QRNGSettings!!.maximum))
+        QRNGSettings!!.excludedNumbers = excludedCopy
         setSettingsDialog()
         setExcludedDialog()
-        quantityInput!!.setText(java.lang.String.valueOf(rngSettings!!.numNumbers))
+        quantityInput!!.setText(java.lang.String.valueOf(QRNGSettings!!.numNumbers))
         loadExcludedNumbers()
         focalPoint!!.requestFocus()
         shakeManager!!.registerListener(shakeListener)
     }
 
     private fun setSettingsDialog() {
-        settingsDialog = MaterialDialog.Builder(activity!!)
+        settingsDialog = MaterialDialog.Builder(requireActivity())
                 .theme(Theme.DARK)
                 .title(R.string.rng_settings)
                 .customView(R.layout.rng_settings, true)
                 .positiveText(android.R.string.yes)
                 .onPositive { dialog: MaterialDialog?, which: DialogAction? -> loadExcludedNumbers() }
                 .build()
-        moreSettingsViewHolder = RNGSettingsViewHolder(settingsDialog!!.customView!!, activity!!, rngSettings!!)
+        moreSettingsViewHolder = RNGSettingsViewHolder(settingsDialog!!.customView!!, requireActivity(), QRNGSettings!!)
     }
 
     private fun setExcludedDialog() {
-        val excludedNumbers = rngSettings!!.excludedNumbers
-        excludedDialog = MaterialDialog.Builder(activity!!)
+        val excludedNumbers = QRNGSettings!!.excludedNumbers
+        excludedDialog = MaterialDialog.Builder(requireActivity())
                 .theme(Theme.DARK)
                 .title(R.string.excluded_numbers)
                 .content(getExcludedList(excludedNumbers!!, noExcludedNumbers!!))
@@ -137,7 +137,7 @@ class QRNGFragment : Fragment() {
                     if (which == DialogAction.NEGATIVE) {
                         editExcludedNumbers()
                     } else if (which == DialogAction.NEUTRAL) {
-                        rngSettings!!.excludedNumbers!!.clear()
+                        QRNGSettings!!.excludedNumbers!!.clear()
                         loadExcludedNumbers()
                         snackbarDisplay.showSnackbar(getString(R.string.excluded_clear))
                     }
@@ -152,26 +152,26 @@ class QRNGFragment : Fragment() {
 
     private fun saveRNGSettings() {
         try {
-            rngSettings!!.minimum = minimumInput!!.text.toString().toInt()
+            QRNGSettings!!.minimum = minimumInput!!.text.toString().toInt()
         } catch (ignored: NumberFormatException) {
         }
         try {
-            rngSettings!!.maximum = maximumInput!!.text.toString().toInt()
+            QRNGSettings!!.maximum = maximumInput!!.text.toString().toInt()
         } catch (ignored: NumberFormatException) {
         }
         try {
-            rngSettings!!.numNumbers = quantityInput!!.text.toString().toInt()
+            QRNGSettings!!.numNumbers = quantityInput!!.text.toString().toInt()
         } catch (ignored: NumberFormatException) {
         }
-        rngSettings!!.sortType = moreSettingsViewHolder!!.sortIndex
-        rngSettings!!.isNoDupes = moreSettingsViewHolder!!.noDupes
-        rngSettings!!.isShowSum = moreSettingsViewHolder!!.showSum()
-        rngSettings!!.isHideExcluded = moreSettingsViewHolder!!.hideExcludes()
-        preferencesManager!!.saveRNGSettings(rngSettings!!)
+        QRNGSettings!!.sortType = moreSettingsViewHolder!!.sortIndex
+        QRNGSettings!!.isNoDupes = moreSettingsViewHolder!!.noDupes
+        QRNGSettings!!.isShowSum = moreSettingsViewHolder!!.showSum()
+        QRNGSettings!!.isHideExcluded = moreSettingsViewHolder!!.hideExcludes()
+        preferencesManager!!.saveRNGSettings(QRNGSettings!!)
     }
 
     private fun loadExcludedNumbers() {
-        val excludedNumbers = rngSettings!!.excludedNumbers
+        val excludedNumbers = QRNGSettings!!.excludedNumbers
         if (excludedNumbers!!.isEmpty()) {
             excludedNumsDisplay!!.setText(R.string.none)
         } else {
@@ -184,7 +184,7 @@ class QRNGFragment : Fragment() {
     }
 
     private fun editExcluded() {
-        val excludedNumbers = rngSettings!!.excludedNumbers
+        val excludedNumbers = QRNGSettings!!.excludedNumbers
         excludedDialog!!.setContent(getExcludedList(excludedNumbers!!, noExcludedNumbers!!))
         if (!excludedNumbers.isEmpty()) {
             excludedDialog!!.setActionButton(DialogAction.NEUTRAL, R.string.clear)
@@ -199,9 +199,9 @@ class QRNGFragment : Fragment() {
             intent.putExtra(EditExcludedActivity.MAXIMUM_KEY, maximumInput!!.text.toString().toInt())
             intent.putIntegerArrayListExtra(
                     EditExcludedActivity.EXCLUDED_NUMBERS_KEY,
-                    rngSettings!!.excludedNumbers)
+                    QRNGSettings!!.excludedNumbers)
             startActivityForResult(intent, 1)
-            activity!!.overridePendingTransition(R.anim.slide_left_out, R.anim.slide_left_in)
+            requireActivity().overridePendingTransition(R.anim.slide_left_out, R.anim.slide_left_in)
         } catch (exception: NumberFormatException) {
             snackbarDisplay.showSnackbar(getString(R.string.not_a_number))
         }
@@ -212,18 +212,18 @@ class QRNGFragment : Fragment() {
     }
 
     fun minChanged() {
-        rngSettings!!.excludedNumbers!!.clear()
+        QRNGSettings!!.excludedNumbers!!.clear()
         loadExcludedNumbers()
     }
 
     fun maxChanged() {
-        rngSettings!!.excludedNumbers!!.clear()
+        QRNGSettings!!.excludedNumbers!!.clear()
         loadExcludedNumbers()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
-            rngSettings!!.excludedNumbers = data!!.getIntegerArrayListExtra(
+            QRNGSettings!!.excludedNumbers = data!!.getIntegerArrayListExtra(
                     EditExcludedActivity.EXCLUDED_NUMBERS_KEY)
             loadExcludedNumbers()
             snackbarDisplay.showSnackbar(getString(R.string.excluded_updated))
@@ -233,11 +233,11 @@ class QRNGFragment : Fragment() {
     fun generate() {
         if (verifyForm()) {
             val mainActivity = activity as MainActivity?
-            mainActivity?.playSound(RNGType.NUMBER)
+            mainActivity?.playSound(QRNGType.NUMBER)
             val minimum = minimumInput!!.text.toString().toInt()
             val maximum = maximumInput!!.text.toString().toInt()
             val quantity = quantityInput!!.text.toString().toInt()
-            val generatedNums: List<Int> = getNumbers(minimum, maximum, quantity, moreSettingsViewHolder!!.noDupes, rngSettings!!.excludedNumbers)
+            val generatedNums: List<Int> = getNumbers(minimum, maximum, quantity, moreSettingsViewHolder!!.noDupes, QRNGSettings!!.excludedNumbers)
             when (moreSettingsViewHolder!!.sortIndex) {
                 1 -> Collections.sort(generatedNums)
                 2 -> {
@@ -251,13 +251,13 @@ class QRNGFragment : Fragment() {
                     moreSettingsViewHolder!!.showSum(),
                     numbersPrefix,
                     sumPrefix)
-            historyDataManager!!.addHistoryRecord(RNGType.NUMBER, resultsString)
+            historyDataManager!!.addHistoryRecord(QRNGType.NUMBER, resultsString)
             animateResults(results!!, Html.fromHtml(resultsString), resultsAnimationLength)
         }
     }
 
     private fun verifyForm(): Boolean {
-        hideKeyboard(activity!!)
+        hideKeyboard(requireActivity())
         focalPoint!!.requestFocus()
         val minimum = minimumInput!!.text.toString()
         val maximum = maximumInput!!.text.toString()
@@ -274,7 +274,7 @@ class QRNGFragment : Fragment() {
             } else if (quantity.toInt() <= 0) {
                 snackbarDisplay.showSnackbar(getString(R.string.non_zero_quantity))
                 return false
-            } else if (numAvailable < quantityRestriction + rngSettings!!.excludedNumbers!!.size) {
+            } else if (numAvailable < quantityRestriction + QRNGSettings!!.excludedNumbers!!.size) {
                 snackbarDisplay.showSnackbar(getString(R.string.overlimited_range))
                 return false
             }
@@ -287,7 +287,7 @@ class QRNGFragment : Fragment() {
 
     private fun copyNumbers() {
         val numbersText = results!!.text.toString()
-        copyResultsToClipboard(numbersText, snackbarDisplay, activity!!)
+        copyResultsToClipboard(numbersText, snackbarDisplay, requireActivity())
     }
 
     override fun onDestroyView() {

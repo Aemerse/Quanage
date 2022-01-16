@@ -5,7 +5,7 @@ import com.joanzapata.iconify.Iconify
 import com.joanzapata.iconify.fonts.FontAwesomeModule
 import com.joanzapata.iconify.fonts.IoniconsModule
 
-class MyApplication : Application() {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
         Iconify.with(IoniconsModule()).with(FontAwesomeModule())
