@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.speech.RecognizerIntent
-import android.telecom.VideoProfile.isVideo
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -63,9 +62,7 @@ class ChatsDM : AppCompatActivity(), IncomingChatsAdapter.ItemClickListener {
         binding = ChatsDmActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val bundle = intent.extras
-        val user = bundle!!.get("user") as User
-        userId = user.userId
+        userId = Firebase.auth.currentUser?.uid
 
         binding.toolbarTop.setNavigationOnClickListener { onBackPressed() }
 
@@ -79,11 +76,6 @@ class ChatsDM : AppCompatActivity(), IncomingChatsAdapter.ItemClickListener {
             }
             .build(binding.editText)
 
-        binding.toolbarTop.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            intent.putExtra("user", user)
-            startActivity(intent)
-        }
         binding.toolbarTop.setOnMenuItemClickListener { item: MenuItem ->
             val idTop: Int = item.itemId
             if (idTop == R.id.call) {
@@ -128,7 +120,7 @@ class ChatsDM : AppCompatActivity(), IncomingChatsAdapter.ItemClickListener {
                     if (!Strings.isNullOrEmpty(text)) {
                         binding.replyLayout.visibility = GONE
                         binding.editText.text = null
-                        val chatmessages = Firebase.database("https://personal-aemerse.firebaseio.com/").reference
+                        val chatmessages = Firebase.database("https://quanage-f2ca9-default-rtdb.firebaseio.com/").reference
                             .child("/1on1chats/${firebaseKey(userId!!)}/")
                             .push()
                         val messageId = chatmessages.key
@@ -180,7 +172,7 @@ class ChatsDM : AppCompatActivity(), IncomingChatsAdapter.ItemClickListener {
         binding.chatsRecycler.adapter = adapter
 
 
-        snapshotListener = Firebase.database("https://personal-aemerse.firebaseio.com/").reference
+        snapshotListener = Firebase.database("https://quanage-f2ca9-default-rtdb.firebaseio.com/").reference
             .child("/1on1chats/${firebaseKey(userId!!)}")
             .orderByChild("timestamp")
         messagesListener = object: ValueEventListener {
@@ -251,7 +243,7 @@ class ChatsDM : AppCompatActivity(), IncomingChatsAdapter.ItemClickListener {
                     getExternalFilesDir(Environment.DIRECTORY_MOVIES),
                     "VID_" + System.currentTimeMillis().toString() + ".mp4"
                 )
-                val firestoreRefHere = Firebase.database("https://personal-aemerse.firebaseio.com/").reference
+                val firestoreRefHere = Firebase.database("https://quanage-f2ca9-default-rtdb.firebaseio.com/").reference
                     .child("/1on1chats/${firebaseKey(userId!!)}")
                     .push()
                 val messageId = firestoreRefHere.key
@@ -319,7 +311,7 @@ class ChatsDM : AppCompatActivity(), IncomingChatsAdapter.ItemClickListener {
                 }
             } else{
                 GlobalScope.launch(Dispatchers.Default) {
-                    val firestoreRefHere = Firebase.database("https://personal-aemerse.firebaseio.com/").reference
+                    val firestoreRefHere = Firebase.database("https://quanage-f2ca9-default-rtdb.firebaseio.com/").reference
                         .child("/1on1chats/${firebaseKey(userId!!)}")
                         .push()
                     val messageId = firestoreRefHere.key
@@ -371,7 +363,7 @@ class ChatsDM : AppCompatActivity(), IncomingChatsAdapter.ItemClickListener {
                 .setTitle("Delete Message?")
                 .setMessage("Message will be deleted from the chat")
                 .setPositiveButton(R.string.proceed) { dialog, _ ->
-                    Firebase.database("https://personal-aemerse.firebaseio.com/").reference
+                    Firebase.database("https://quanage-f2ca9-default-rtdb.firebaseio.com/").reference
                         .child("/1on1chats/${firebaseKey(userId!!)}/${message.messageId}")
                         .removeValue()
                     dialog.dismiss()

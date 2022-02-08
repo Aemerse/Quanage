@@ -172,6 +172,10 @@ class ProfileActivity : AppCompatActivity() {
                 intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
             }
+            R.id.chat -> {
+                intent = Intent(applicationContext, ChatsDM::class.java)
+                startActivity(intent)
+            }
         }
         false
     }

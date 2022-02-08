@@ -8,6 +8,12 @@
         android:title="Home" />
 
     <item
+        android:id="@+id/chat"
+        android:icon="@drawable/ic_pigeon_24dp"
+        app:showAsAction="always"
+        android:title="Chat" />
+
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_menu_24"
         app:showAsAction="always"

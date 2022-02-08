@@ -97,6 +97,10 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
                 intent = Intent(applicationContext, ProfileActivity::class.java)
                 startActivity(intent)
             }
+            R.id.chat -> {
+                intent = Intent(applicationContext, ChatsDM::class.java)
+                startActivity(intent)
+            }
         }
         false
     }

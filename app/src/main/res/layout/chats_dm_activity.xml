@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".activities.ChatsDM">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarTop"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:title="Quantum Chat"
         app:menu="@menu/chatting_dm"
         app:navigationIcon="@drawable/ic_back"
         app:titleTextColor="@color/white" />

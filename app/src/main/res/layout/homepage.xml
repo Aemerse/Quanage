@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/black"
         android:layout_alignParentBottom="true"
-        app:labelVisibilityMode="unlabeled"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigation" />
 
 </RelativeLayout>
