@@ -18,6 +18,4 @@
         android:icon="@drawable/ic_menu_24"
         app:showAsAction="always"
         android:title="Profile" />
-
-
 </menu>
