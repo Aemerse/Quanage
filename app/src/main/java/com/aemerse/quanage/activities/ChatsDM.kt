@@ -105,39 +105,48 @@ class ChatsDM : AppCompatActivity(), IncomingChatsAdapter.ItemClickListener {
         }
         binding.toolbarBottom.setNavigationOnClickListener {
             binding.chatsRecycler.scrollToPosition(chats.size - 1)
-            if (!emojiPopup.isShowing) {
-                binding.toolbarBottom.setNavigationIcon(R.drawable.ic_keyboard_24dp)
-                emojiPopup.toggle()
-            } else {
-                binding.toolbarBottom.setNavigationIcon(R.drawable.ic_emoji)
-                emojiPopup.dismiss()
+            when {
+                !emojiPopup.isShowing -> {
+                    binding.toolbarBottom.setNavigationIcon(R.drawable.ic_keyboard_24dp)
+                    emojiPopup.toggle()
+                }
+                else -> {
+                    binding.toolbarBottom.setNavigationIcon(R.drawable.ic_emoji)
+                    emojiPopup.dismiss()
+                }
             }
         }
         binding.toolbarBottom.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.send -> {
                     val text: String = binding.editText.text.toString().trim()
-                    if (!Strings.isNullOrEmpty(text)) {
-                        binding.replyLayout.visibility = GONE
-                        binding.editText.text = null
-                        val chatmessages = Firebase.database("https://quanage-f2ca9-default-rtdb.firebaseio.com/").reference
-                            .child("/1on1chats/${firebaseKey(userId!!)}/")
-                            .push()
-                        val messageId = chatmessages.key
-                        val chatMessages = ChatMessages(
-                            text, "text",
-                            Firebase.auth.currentUser!!.uid, userId,
-                            ServerValue.TIMESTAMP,
-                            messageId
-                        )
-                        chatmessages.setValue(chatMessages)
-                    } else {
-                        if (count % 2 == 0) {
-                            binding.chatsRecycler.smoothScrollToPosition(0)
-                        } else {
-                            binding.chatsRecycler.smoothScrollToPosition(chats.size - 1)
+                    when {
+                        !Strings.isNullOrEmpty(text) -> {
+                            binding.replyLayout.visibility = GONE
+                            binding.editText.text = null
+                            val chatmessages = Firebase.database("https://quanage-f2ca9-default-rtdb.firebaseio.com/").reference
+                                .child("/1on1chats/${firebaseKey(userId!!)}/")
+                                .push()
+                            val messageId = chatmessages.key
+                            val chatMessages = ChatMessages(
+                                text, "text",
+                                Firebase.auth.currentUser!!.uid, userId,
+                                ServerValue.TIMESTAMP,
+                                messageId
+                            )
+                            chatmessages.setValue(chatMessages)
                         }
-                        count++
+                        else -> {
+                            when {
+                                count % 2 == 0 -> {
+                                    binding.chatsRecycler.smoothScrollToPosition(0)
+                                }
+                                else -> {
+                                    binding.chatsRecycler.smoothScrollToPosition(chats.size - 1)
+                                }
+                            }
+                            count++
+                        }
                     }
                 }
                 R.id.camera -> {
@@ -170,7 +179,6 @@ class ChatsDM : AppCompatActivity(), IncomingChatsAdapter.ItemClickListener {
         binding.chatsRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val adapter = IncomingChatsAdapter(this, chats, mUserList, this)
         binding.chatsRecycler.adapter = adapter
-
 
         snapshotListener = Firebase.database("https://quanage-f2ca9-default-rtdb.firebaseio.com/").reference
             .child("/1on1chats/${firebaseKey(userId!!)}")
