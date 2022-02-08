@@ -1,4 +1,4 @@
-package com.aemerse.quanage.profile
+package com.aemerse.quanage.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -9,8 +9,6 @@ import android.view.View
 import android.view.View.GONE
 import androidx.appcompat.app.AppCompatActivity
 import com.aemerse.quanage.R
-import com.aemerse.quanage.activities.MainActivity
-import com.aemerse.quanage.activities.SplashActivity
 import com.aemerse.quanage.databinding.ProfileActivityBinding
 import com.aemerse.quanage.utils.*
 import com.bumptech.glide.Glide

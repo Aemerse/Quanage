@@ -14,7 +14,6 @@ import com.aemerse.quanage.databinding.HomepageBinding
 import com.aemerse.quanage.dialogs.HistoryDialog
 import com.aemerse.quanage.persistence.HistoryDataManager
 import com.aemerse.quanage.persistence.PreferencesManager
-import com.aemerse.quanage.profile.ProfileActivity
 import com.aemerse.quanage.utils.ShakeManager
 import com.aemerse.quanage.utils.ShakeManager.Companion.get
 import com.aemerse.quanage.utils.hideKeyboard

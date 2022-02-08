@@ -1,4 +1,4 @@
-package com.aemerse.quanage.models
+package com.aemerse.quanage.model
 
 import com.aemerse.quanage.constants.SortType
 import java.util.*

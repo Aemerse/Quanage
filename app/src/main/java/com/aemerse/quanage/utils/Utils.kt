@@ -12,6 +12,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -24,20 +25,30 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AnticipateOvershootInterpolator
 import android.view.inputmethod.InputMethodManager
-import android.widget.CompoundButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.StringRes
 import androidx.core.app.ActivityCompat
 import com.aemerse.quanage.R
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import java.util.*
+import kotlin.math.ceil
 import kotlin.math.sqrt
 
 var toast: Toast? = null
 
 const val sharedPrefFile = "quanageSharedPreferences"
 val permissionsRequest: Int = 931
+const val REQ_CODE_SPEECH_INPUT = 100
+const val REQ_SELECTION = 102
 
 val permissionsToGive = arrayOf(
   Manifest.permission.INTERNET,
@@ -310,4 +321,70 @@ fun getCoinResults(flips: List<Int>, context: Context): String {
   stringBuilder.append(numTails.toString())
   return stringBuilder.toString()
 }
+fun loadImageWithTransition(mContext: Context?, imageUrl: Any?, image: ImageView?, progressBar: ProgressBar?) {
+  if (progressBar != null) progressBar.visibility = View.VISIBLE
+  if (image != null) {
+    if (mContext != null) {
+      Glide.with(mContext)
+        .load(imageUrl)
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .apply(RequestOptions())
+        .listener(object : RequestListener<Drawable?> {
+          override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
+            if (progressBar != null) progressBar.visibility = View.GONE
+            return false
+          }
 
+          override fun onResourceReady(resource: Drawable?, model: Any, target: Target<Drawable?>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+            if (progressBar != null) progressBar.visibility = View.GONE
+            return false
+          }
+        }).into(image)
+    }
+  }
+}
+
+fun loadImageWithoutTransition(mContext: Context?, imageUrl: Any?, image: ImageView?) {
+  Glide.with(mContext!!)
+    .load(imageUrl)
+    .transition(DrawableTransitionOptions.withCrossFade())
+    .apply(RequestOptions())
+    .into(image!!)
+}
+fun firebaseKey(userId: String): String {
+  return if (userId > Firebase.auth.currentUser!!.uid) userId + "_" +  Firebase.auth.currentUser!!.uid else  Firebase.auth.currentUser!!.uid + "_" + userId
+}
+
+private var density = 1f
+
+fun dp(value: Float, context: Context): Int {
+  if (density == 1f) {
+    checkDisplaySize(context)
+  }
+  return when (value) {
+    0f -> {
+      0
+    }
+    else -> ceil((density * value).toDouble()).toInt()
+  }
+}
+
+
+private fun checkDisplaySize(context: Context) {
+  try {
+    density = context.resources.displayMetrics.density
+  } catch (e: Exception) {
+    e.printStackTrace()
+  }
+}
+//Checking file extension
+fun isPhotoOrVideo(fileName: String): Boolean {
+  return (fileName.endsWith(".jpg") || fileName.endsWith(".png") ||
+          fileName.endsWith(".gif") || fileName.endsWith(".mp4") ||
+          fileName.endsWith(".3gp") || fileName.endsWith(".mkv")
+          || fileName.endsWith("bmp"))
+}
+
+fun isVideo(fileName: String): Boolean {
+  return fileName.endsWith(".mp4") || fileName.endsWith(".3gp") || fileName.endsWith(".mkv")
+}

@@ -19,8 +19,8 @@ import com.aemerse.quanage.R
 import com.aemerse.quanage.activities.EditExcludedActivity
 import com.aemerse.quanage.activities.MainActivity
 import com.aemerse.quanage.constants.QRNGType
-import com.aemerse.quanage.models.QRNGSettings
-import com.aemerse.quanage.models.RNGSettingsViewHolder
+import com.aemerse.quanage.model.QRNGSettings
+import com.aemerse.quanage.model.RNGSettingsViewHolder
 import com.aemerse.quanage.persistence.HistoryDataManager
 import com.aemerse.quanage.persistence.PreferencesManager
 import com.aemerse.quanage.utils.*

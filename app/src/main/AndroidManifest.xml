@@ -40,7 +40,10 @@
             android:label="@string/excluded_page_label"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name="com.aemerse.quanage.profile.ProfileActivity" />
+        <activity android:name="com.aemerse.quanage.activities.ProfileActivity" />
         <activity android:name="com.aemerse.quanage.utils.SelectedImage" />
+        <activity android:name=".activities.ChatsDM" />
+        <activity android:name=".activities.SelectedActivity" />
+        <activity android:name=".utils.ImagesAndVideosActivity" />
     </application>
 </manifest>

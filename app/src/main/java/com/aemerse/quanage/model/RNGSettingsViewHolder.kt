@@ -1,4 +1,4 @@
-package com.aemerse.quanage.models
+package com.aemerse.quanage.model
 
 import android.content.Context
 import android.view.View

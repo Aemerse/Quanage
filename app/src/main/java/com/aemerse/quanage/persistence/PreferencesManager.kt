@@ -3,7 +3,7 @@ package com.aemerse.quanage.persistence
 import android.content.Context
 import android.content.SharedPreferences
 import com.aemerse.quanage.constants.SortType
-import com.aemerse.quanage.models.QRNGSettings
+import com.aemerse.quanage.model.QRNGSettings
 import java.util.*
 
 class PreferencesManager(context: Context) {

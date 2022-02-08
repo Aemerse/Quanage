@@ -61,4 +61,8 @@
     
     <string name="sound_fail">Failed to play sound.</string>
     <string name="selected_image">Selected Image</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="proceed">Proceed</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

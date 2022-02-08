@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<!--    <item-->
+<!--        android:id="@+id/video_call"-->
+<!--        android:icon="@drawable/ic_video_calling_app"-->
+<!--        app:showAsAction="always"-->
+<!--        android:title="Video Call" />-->
+
+    <item
+        android:id="@+id/call"
+        android:icon="@drawable/ic_phone_call"
+        android:title="Call"
+        app:showAsAction="always" />
+
+<!--    <item-->
+<!--        android:id="@+id/options"-->
+<!--        android:icon="@drawable/ic_options"-->
+<!--        android:title="Options"-->
+<!--        app:showAsAction="always" />-->
+
+</menu>
