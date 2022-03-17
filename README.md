@@ -32,6 +32,9 @@
 
 Quanage for Android is a mobile app for the application of Quantum Encryption on the Android platform. Here we establish two randomly generated keys and keep a track of them leveraging a quantum computer provided by IBM Quantum using their APIs. The app is a live demonstration of the QKD concepts and tends out to be the first ever truly secure application for exchange of data across the internet.
 
+In order to share messages with someone, the users first generate a random key using QRNG, the Qiskit SDK and IBM Quantum APIs, which is then shared amongst them through peer to peer networks for the first time. After this, the keys are monitored by a server and read/write access to the key is only provided to the app and any foreign interaction will trigger a function call to reset the key and discard the previous one.
+We are happy to say that the demonstration works and is currently implemented in the app which we have made.
+
 [![Screenshot-20211129-122625.png](https://i.postimg.cc/sxDK1TzR/Screenshot-20211129-122625.png)](https://postimg.cc/2bMnKF3H)
 
 ## Development
